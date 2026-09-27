@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bestiário de Windhelm</title>
+<meta name="description" content="As feras de Skyrim anotadas por Eivor, Mago da Corte, com a ajuda dos moradores de Windhelm, num livro antigo para folhear.">
+<meta name="theme-color" content="#15120f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Meddon&family=Homemade+Apple&family=Noto+Sans+Runic&family=Barlow+Condensed:wght@500;600&display=block">
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- tinta: borda irregular de pena sobre papel fibroso -->
+    <filter id="tinta" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="2" seed="5" result="r"/>
+      <feDisplacementMap in="SourceGraphic" in2="r" scale="1.7" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <!-- douração gasta pelo uso -->
+    <filter id="desgaste" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="3" seed="8" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -3.2 2.45" result="m"/>
+      <feComposite in="SourceGraphic" in2="m" operator="in" result="g"/>
+      <feDropShadow in="g" dx="0" dy="1" stdDeviation=".6" flood-color="#000" flood-opacity=".85"/>
+    </filter>
+    <linearGradient id="ouro" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="130" y2="95" spreadMethod="reflect">
+      <stop offset="0" stop-color="#7c5c2c"/>
+      <stop offset=".4" stop-color="#d6b46c"/>
+      <stop offset=".62" stop-color="#9a7640"/>
+      <stop offset="1" stop-color="#c9a45c"/>
+    </linearGradient>
+    <linearGradient id="ferro" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="100" y2="100">
+      <stop offset="0" stop-color="#5a5550"/>
+      <stop offset=".45" stop-color="#34312e"/>
+      <stop offset="1" stop-color="#1b1917"/>
+    </linearGradient>
+    <radialGradient id="rebite" cx=".35" cy=".32" r=".75">
+      <stop offset="0" stop-color="#a8a196"/>
+      <stop offset=".45" stop-color="#58534d"/>
+      <stop offset="1" stop-color="#262321"/>
+    </radialGradient>
+    <radialGradient id="relevo" cx=".4" cy=".35" r=".75">
+      <stop offset="0" stop-color="#7a5038" stop-opacity=".5"/>
+      <stop offset=".7" stop-color="#2a150e" stop-opacity=".05"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".5"/>
+    </radialGradient>
+  </defs>
+</svg>
+
+<main id="cena" aria-label="Bestiário de Windhelm">
+  <div class="fundo coluna c1"></div>
+  <div class="fundo coluna c2"></div>
+  <div class="fundo chama"></div>
+  <div class="fundo bruma"></div>
+  <div class="fundo vinheta"></div>
+  <div id="palco">
+    <div id="livro"></div>
+  </div>
+</main>
+
+<nav class="dicas" aria-label="Controles do livro">
+  <span class="aviso-abrir" id="aviso-abrir">Clique na capa para abrir</span>
+  <button class="dica" id="bt-ant" type="button"><span class="tecla" aria-hidden="true">&larr;</span><span>Anterior</span></button>
+  <button class="dica" id="bt-prox" type="button"><span class="tecla" aria-hidden="true">&rarr;</span><span>Próxima</span></button>
+  <button class="dica" id="bt-sum" type="button"><span class="tecla letra" aria-hidden="true">S</span><span>Sumário</span></button>
+  <button class="dica" id="bt-som" type="button" aria-pressed="true"><span class="tecla letra" aria-hidden="true">M</span><span id="rotulo-som">Som</span></button>
+  <button class="dica" id="bt-fechar" type="button"><span class="tecla letra" aria-hidden="true">Esc</span><span>Fechar</span></button>
+</nav>
+<p id="anuncio" class="sr" aria-live="polite"></p>
+
+<script src="criaturas.js"></script>
+<script src="livro.js"></script>
+</body>
+</html>
