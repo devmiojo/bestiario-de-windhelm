@@ -583,16 +583,17 @@
   }
 
   function gerarTexturas() {
-    let pendentes = 0;
+    // só tira a cor de fundo provisória quando as sete texturas estiverem prontas
+    const TOTAL = 7;
+    let prontas = 0;
     const definir = (nome, canvas) => {
-      pendentes++;
       const usar = url => {
         livro.style.setProperty(nome, `url("${url}")`);
-        if (--pendentes === 0) raiz.classList.add('texturas');
+        if (++prontas === TOTAL) raiz.classList.add('texturas');
       };
       try {
         canvas.toBlob(b => (b ? usar(URL.createObjectURL(b)) : usar(canvas.toDataURL())), 'image/webp', 0.9);
-      } catch (e) { pendentes--; }
+      } catch (e) { /* sem textura: fica a cor de fundo */ }
     };
     const tarefas = [
       () => definir('--tx-couro', couro(11)),
