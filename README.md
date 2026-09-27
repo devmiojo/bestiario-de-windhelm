@@ -13,10 +13,13 @@ Um livro antigo de couro para folhear no navegador. Nele estão as feras de Skyr
 ## Como anotar uma fera nova
 
 1. Coloque a ilustração na pasta `assets/`, de preferência com o fundo transparente.
-2. Em `criaturas.js`, copie o bloco do Netch, cole logo abaixo dele e troque os campos.
+2. Em `criaturas.js`, copie um bloco existente, cole no fim da lista e troque os campos.
 3. Envie a mudança para o GitHub. O site se atualiza sozinho em cerca de um minuto.
 
-O sumário e a numeração das páginas se ajustam sozinhos. Cada fera ocupa uma página dupla: o registro à esquerda e o retrato à direita.
+O sumário e a numeração das páginas se ajustam sozinhos. Há dois formatos:
+
+- **Um retrato, como o Netch:** a fera ocupa uma página dupla, com o registro à esquerda e o retrato à direita.
+- **Vários retratos, como os Dremoras:** a fera ocupa duas páginas duplas. A primeira traz o registro e o primeiro retrato. A segunda traz o segundo retrato e a página "O que se sabe", com os campos.
 
 ## Arquivos
 

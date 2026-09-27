@@ -183,7 +183,8 @@ body {
 .t-pagina { font-size: 2.2em; line-height: 1.35; }
 .t-sobre { font-size: 1.55em; line-height: 1.3; }
 .t-nome { font-size: 3.3em; line-height: 1.15; }
-.t-legenda { font-size: 2.6em; line-height: 1.2; }
+.t-legenda { font-size: 2.3em; line-height: 1.2; white-space: nowrap; }
+.t-legenda.longa { font-size: 1.75em; }
 
 .runas { font-family: var(--f-runa); text-align: center; letter-spacing: .5em; text-indent: .5em; font-size: .95em; opacity: .7; }
 .rubrica, dt, .capitular { --c: var(--rubrica); }
@@ -244,7 +245,7 @@ dd { display: inline; margin: 0; }
 /* retrato */
 .pg-retrato { display: flex; flex-direction: column; align-items: center; }
 .retrato { margin: 0; flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; align-items: center; width: 100%; }
-.retrato img { display: block; flex: 0 1 auto; min-height: 0; width: 100%; height: auto; max-height: 440px; object-fit: contain; pointer-events: none; }
+.retrato img { display: block; flex: 0 1 auto; min-height: 0; width: 100%; height: auto; max-height: 468px; object-fit: contain; pointer-events: none; }
 .retrato .t-legenda { flex: none; margin-top: .1em; }
 .sem-retrato { margin: 5em 0 2em; font-size: 1.1em; opacity: .7; }
 .nota-margem {
@@ -260,7 +261,7 @@ dd { display: inline; margin: 0; }
   transform: rotate(-2.5deg);
   transform-origin: 0 100%;
 }
-.seta { position: absolute; right: -3.6em; top: -3.4em; width: 3.4em; height: 4em; fill: none; stroke: rgb(var(--tinta) / .85); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.seta { position: absolute; right: -3.2em; top: -1.9em; width: 2.4em; height: 2.6em; fill: none; stroke: rgb(var(--tinta) / .85); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 
 /* notas e fim */
 .pautas { position: absolute; left: 0; right: 0; top: 7.4em; bottom: .5em; background: repeating-linear-gradient(to bottom, transparent 0 29px, rgba(70, 46, 22, .2) 29px 30px); }

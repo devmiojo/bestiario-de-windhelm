@@ -131,28 +131,47 @@
   function prefacio() {
     return `<h2 class="t-pagina">A quem lê</h2>
       ${floreio()}
-      <p>Eu, ${esc(DADOS.autor)}, ${esc(DADOS.cargo)}, reúno neste livro as feras de Skyrim, com a ajuda de todos os moradores de Windhelm que as viram e voltaram para contar. Cada fera ocupa duas páginas: numa, o que dela se sabe; na outra, o seu retrato.</p>
+      <p>Eu, ${esc(DADOS.autor)}, ${esc(DADOS.cargo)}, reúno neste livro as feras de Skyrim, com a ajuda de todos os moradores de Windhelm que as viram e voltaram para contar. Cada fera tem o seu registro e o seu retrato.</p>
       <dl class="legenda">
         <div><dt>Espólio</dt><dd>o que se tira do corpo abatido.</dd></div>
         <div><dt>Glória</dt><dd>a experiência em combate de cada abate.</dd></div>
         <div><dt>Bando</dt><dd>quantas andam juntas.</dd></div>
+        <div><dt>Fraquezas</dt><dd>o que mais as fere.</dd></div>
         <div><dt>Tática</dt><dd>como enfrentá-las.</dd></div>
+        <div><dt>Proteção</dt><dd>o que usar para se defender.</dd></div>
         <div><dt>Região</dt><dd>onde costumam ser vistas.</dd></div>
       </dl>
       <p class="fecho-texto">Leia antes de partir. Conte-me o que viu ao voltar.</p>
       <p class="assinatura">${esc(DADOS.autor)}</p>`;
   }
 
+  // retratos da fera: a lista "retratos" ou, no formato simples, "imagem" + "nota"
+  const retratosDe = c => (c.retratos && c.retratos.length ? c.retratos : [{ imagem: c.imagem, legenda: c.nome, nota: c.nota }]);
+  // com mais de um retrato, os campos ganham uma página só para eles
+  const camposSeparados = c => retratosDe(c).length > 1;
+
+  function campos(c) {
+    const texto = v => (Array.isArray(v) ? lista(v) : String(v));
+    const ponto = t => (/[.!?]$/.test(t) ? t : t + '.');
+    const item = (rotulo, valor, extra = '') => `<div><dt>${rotulo}</dt><dd>${esc(ponto(texto(valor)))}${extra}</dd></div>`;
+    const f = [];
+    if (c.espolio && c.espolio.length) f.push(item('Espólio', c.espolio, c.aviso ? `<span class="aviso">${esc(c.aviso)}</span>` : ''));
+    if (c.xp != null) f.push(item('Glória', `${c.xp} de experiência em combate por cada um abatido`));
+    if (c.bando) f.push(item('Bando', c.bando));
+    if (c.fraquezas) f.push(item('Fraquezas', c.fraquezas));
+    if (c.tatica) f.push(item('Tática', c.tatica));
+    if (c.protecao) f.push(item('Proteção', c.protecao));
+    if (c.regiao) f.push(item('Região', c.regiao));
+    return `<dl class="campos">${f.join('')}</dl>`;
+  }
+
+  function tipos(c) {
+    if (!c.tipos || !c.tipos.length) return '';
+    return `<dl class="campos tipos">${c.tipos.map(t => `<div><dt>${esc(t.nome)}</dt><dd>${esc(t.texto)}</dd></div>`).join('')}</dl>`;
+  }
+
   function registro(c, k) {
     const txt = String(c.descricao || '');
-    const campos = [];
-    if (c.espolio && c.espolio.length) {
-      campos.push(`<div><dt>Espólio</dt><dd>${esc(lista(c.espolio))}.${c.aviso ? `<span class="aviso">${esc(c.aviso)}</span>` : ''}</dd></div>`);
-    }
-    if (c.xp != null) campos.push(`<div><dt>Glória</dt><dd>${esc(c.xp)} de experiência em combate por cada um abatido.</dd></div>`);
-    if (c.bando) campos.push(`<div><dt>Bando</dt><dd>${esc(c.bando)}.</dd></div>`);
-    if (c.tatica) campos.push(`<div><dt>Tática</dt><dd>${esc(c.tatica)}.</dd></div>`);
-    if (c.regiao) campos.push(`<div><dt>Região</dt><dd>${esc(c.regiao)}.</dd></div>`);
     return `<header>
         <p class="t-sobre">${esc(DADOS.titulo)}:</p>
         <h2 class="t-nome">${esc(c.nome)}</h2>
@@ -160,16 +179,27 @@
       </header>
       ${txt ? `<p class="relato"><span class="capitular">${esc(txt[0])}</span>${esc(txt.slice(1))}</p>` : ''}
       ${floreio()}
-      <dl class="campos">${campos.join('')}</dl>
+      ${tipos(c)}
+      ${camposSeparados(c) ? '' : campos(c)}
       ${borrao(900 + k * 17, 352, 104, 5)}`;
   }
 
-  function retrato(c) {
-    const fig = c.imagem
-      ? `<img src="${esc(c.imagem)}" alt="Retrato do ${esc(c.nome)}" draggable="false" decoding="async">`
+  function paginaCampos(c) {
+    return `<header>
+        <p class="t-sobre">${esc(c.nome)}:</p>
+        <h2 class="t-pagina">O que se sabe</h2>
+      </header>
+      ${floreio()}
+      ${campos(c)}`;
+  }
+
+  function retrato(c, r) {
+    const legenda = r.legenda || c.nome;
+    const fig = r.imagem
+      ? `<img src="${esc(r.imagem)}" alt="Retrato: ${esc(legenda)}" draggable="false" decoding="async">`
       : '<p class="sem-retrato">Retrato ainda por desenhar.</p>';
-    return `<figure class="retrato">${fig}<figcaption class="t-legenda">${esc(c.nome)}</figcaption></figure>
-      ${c.nota ? `<p class="nota-margem">${esc(c.nota)}${seta()}</p>` : ''}`;
+    return `<figure class="retrato">${fig}<figcaption class="t-legenda${legenda.length > 13 ? ' longa' : ''}">${esc(legenda)}</figcaption></figure>
+      ${r.nota ? `<p class="nota-margem">${esc(r.nota)}${seta()}</p>` : ''}`;
   }
 
   function sumario() {
@@ -208,9 +238,17 @@
   paginas.push({ id: 'inicio', tipo: 'papel', html: rosto() });
   paginas.push({ id: 'prefacio', tipo: 'papel', html: prefacio(), folio: true });
   paginas.push({ id: 'sumario', tipo: 'papel', html: '', folio: true });
+  // cada fera começa numa página da esquerda e ocupa um número par de páginas:
+  // registro, retrato; e, com mais retratos, o segundo retrato e a página dos campos
   criaturas.forEach((c, k) => {
-    paginas.push({ id: c.id, tipo: 'papel', html: registro(c, k), folio: true, nome: c.nome });
-    paginas.push({ id: c.id + '-retrato', tipo: 'papel', html: retrato(c), folio: true, classe: 'pg-retrato', nome: c.nome });
+    const base = { tipo: 'papel', folio: true, nome: c.nome, criatura: c.id };
+    const seq = [{ ...base, id: c.id, html: registro(c, k) }];
+    retratosDe(c).forEach((r, i) => {
+      seq.push({ ...base, id: c.id + '-retrato' + (i ? '-' + (i + 1) : ''), html: retrato(c, r), classe: 'pg-retrato' });
+      if (i === 1) seq.push({ ...base, id: c.id + '-campos', html: paginaCampos(c) });
+    });
+    if (seq.length % 2) seq.push({ ...base, id: c.id + '-notas', html: '<h2 class="t-pagina">Notas</h2><div class="pautas"></div>' });
+    paginas.push(...seq);
   });
   paginas.push({ id: 'notas', tipo: 'papel', html: notas(), folio: true });
   paginas.push({ id: 'fim', tipo: 'papel', html: fim(), folio: true });
@@ -418,13 +456,21 @@
 
   let TEX = 1.3;
 
-  function tela(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
+  // canvas em memória (sem placa de vídeo): as texturas são desenhadas uma vez e
+  // exportadas, e assim evitam o vaivém de pixels com a GPU
+  function tela(w, h) {
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    c.getContext('2d', { willReadFrequently: true });
+    return c;
+  }
 
   // ruído suave (valores em grade, interpolação suavizada). Cada camada usa a
   // grade girada num ângulo diferente, para as manchas não formarem quadrados.
   function ruido(W, H, cel, R) {
     const ang = R() * Math.PI, ca = Math.cos(ang) / cel, sa = Math.sin(ang) / cel;
-    const n = Math.ceil((2 * Math.hypot(W, H)) / cel) + 4, off = n / 2;
+    // a grade girada precisa cobrir toda a página em qualquer ângulo, sem índice negativo
+    const n = Math.ceil((2 * (W + H)) / cel) + 6, off = (W + H) / cel + 2;
     const g = new Float32Array(n * n);
     for (let i = 0; i < g.length; i++) g[i] = R();
     const out = new Float32Array(W * H);
@@ -584,12 +630,17 @@
 
   function gerarTexturas() {
     // só tira a cor de fundo provisória quando as sete texturas estiverem prontas
+    // aplicadas todas juntas, para as páginas serem redesenhadas uma vez só
     const TOTAL = 7;
-    let prontas = 0;
+    const urls = {};
     const definir = (nome, canvas) => {
       const usar = url => {
-        livro.style.setProperty(nome, `url("${url}")`);
-        if (++prontas === TOTAL) raiz.classList.add('texturas');
+        urls[nome] = url;
+        if (Object.keys(urls).length < TOTAL) return;
+        requestAnimationFrame(() => {
+          for (const [n, u] of Object.entries(urls)) livro.style.setProperty(n, `url("${u}")`);
+          raiz.classList.add('texturas');
+        });
       };
       try {
         canvas.toBlob(b => (b ? usar(URL.createObjectURL(b)) : usar(canvas.toDataURL())), 'image/webp', 0.9);
@@ -822,8 +873,8 @@
     anuncio.textContent = [...new Set(nomes)].join(', ');
     // âncora no endereço, para compartilhar uma página
     const pgs = vis.map(p => paginas[p]);
-    const alvo = pgs.find(pg => pg.nome) || pgs.find(pg => ['prefacio', 'sumario', 'notas', 'fim', 'inicio'].includes(pg.id));
-    const hash = alvo ? '#' + (alvo.id.endsWith('-retrato') ? alvo.id.slice(0, -8) : alvo.id) : '';
+    const alvo = pgs.find(pg => pg.criatura || ['prefacio', 'sumario', 'notas', 'fim', 'inicio'].includes(pg.id));
+    const hash = alvo ? '#' + alvo.id : '';
     try {
       if (location.hash !== hash) history.replaceState(null, '', hash || location.pathname + location.search);
     } catch (e) { /* ambiente sem histórico */ }
