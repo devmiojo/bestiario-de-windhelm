@@ -1,5 +1,5 @@
 /*
-  Bestiário de Windhelm: o livro que se folheia.
+  Bestiário de Eivor, Mago da Corte de Windhelm: o livro que se folheia.
 
   As páginas saem de criaturas.js. Este arquivo monta o livro, desenha o
   pergaminho e o couro, vira as folhas em 3D e cuida da navegação.
@@ -7,7 +7,7 @@
 (() => {
   'use strict';
 
-  const DADOS = window.BESTIARIO || { titulo: 'Bestiário de Windhelm', livro: '', criaturas: [] };
+  const DADOS = window.BESTIARIO || { titulo: 'Bestiário de Eivor', subtitulo: 'Mago da Corte de Windhelm', livro: '', criaturas: [] };
   DADOS.autor = DADOS.autor || 'Eivor';
   DADOS.cargo = DADOS.cargo || 'Mago da Corte';
 
@@ -117,13 +117,13 @@
       <div class="topo">
         <p class="t-grande">${esc(a)}</p>
         <p class="t-medio">${esc(b.join(' '))}</p>
+        ${DADOS.subtitulo ? `<p class="subtitulo">${esc(DADOS.subtitulo)}</p>` : ''}
         ${floreio()}
       </div>
       <svg class="pata-tinta" viewBox="0 0 100 92" aria-hidden="true">${pata()}</svg>
       <div class="topo">
         <p class="livro-n">${esc(DADOS.livro || '')}</p>
-        <p class="autor">Escrito por ${esc(DADOS.autor)}, ${esc(DADOS.cargo)},</p>
-        <p class="autoria">com a ajuda de todos os moradores de Windhelm</p>
+        <p class="autoria">Escrito com a ajuda de todos os moradores de Windhelm</p>
       </div>
     </div>`;
   }
@@ -315,7 +315,7 @@
       const cx = (26 + W) / 2, cy = 452, R = 112;
       const ra = R - 25;
       const anel = `M${cx - ra},${cy} a${ra},${ra} 0 1,1 ${2 * ra},0 a${ra},${ra} 0 1,1 ${-2 * ra},0`;
-      const runas = 'ᛒᛖᛊᛏᛁᚨᚱᛁᛟ ᛫ ᛞᛖ ᛫ ᚹᛁᚾᛞᚺᛖᛚᛗ ᛫ ᛒᛖᛊᛏᛁᚨᚱᛁᛟ ᛫ ᛞᛖ ᛫ ᚹᛁᚾᛞᚺᛖᛚᛗ ᛫';
+      const runas = 'ᛒᛖᛊᛏᛁᚨᚱᛁᛟ ᛫ ᛞᛖ ᛫ ᛖᛁᚹᛟᚱ ᛫ ᛗᚨᚷᛟ ᛫ ᛞᚨ ᛫ ᚲᛟᚱᛏᛖ ᛫';
       return `<svg class="arte" viewBox="0 0 ${W} ${H}" aria-hidden="true">
         ${moldura}
         <path id="anel-capa" d="${anel}" fill="none"/>
@@ -363,6 +363,7 @@
       <div class="conteudo" data-seed="77">
         <p class="t-grande">${esc(a)}</p>
         <p class="t-medio">${esc(b.join(' '))}</p>
+        ${DADOS.subtitulo ? `<p class="subtitulo">${esc(DADOS.subtitulo)}</p>` : ''}
         <p class="livro-n">${esc(DADOS.livro || '')}</p>
       </div>
     </div>`;
@@ -408,7 +409,7 @@
 
   // etiqueta da capa com bordas rasgadas
   (function recortarEtiqueta() {
-    const R = rng(4242), w = 348, h = 158, st = 5, pts = [];
+    const R = rng(4242), w = 348, h = 188, st = 5, pts = [];
     for (let x = 0; x <= w; x += st) pts.push([x, R() * 3.2]);
     for (let y = 0; y <= h; y += st) pts.push([w - R() * 3.2, y]);
     for (let x = w; x >= 0; x -= st) pts.push([x, h - R() * 3.2]);
@@ -601,11 +602,11 @@
     for (let y = 0; y < H; y++) {
       for (let x = 0; x < W; x++) {
         const i = y * W + x;
-        const v = n1[i] * 0.6 + n2[i] * 0.25 + n3[i] * 0.15;
-        let t = clamp((v - 0.3) / 0.45, 0, 1); t = t * t * (3 - 2 * t);
-        let r = 26 + 36 * t, gg = 13 + 21 * t, b = 9 + 13 * t;
+        const v = n1[i] * 0.55 + n2[i] * 0.25 + n3[i] * 0.2;
+        let t = clamp((v - 0.32) / 0.4, 0, 1); t = t * t * (3 - 2 * t);
+        let r = 30 + 30 * t, gg = 16 + 17 * t, b = 11 + 11 * t;
         // manchas escuras de gordura, leves
-        const m = clamp((0.38 - n2[i]) / 0.25, 0, 1) * 0.14;
+        const m = clamp((0.38 - n2[i]) / 0.25, 0, 1) * 0.08;
         r *= 1 - m; gg *= 1 - m; b *= 1 - m;
         const e = Math.min(x, W - x, y, H - y) / T;
         let q = clamp(1 - e / (9 + 26 * n1[i]), 0, 1); q = q * q * 0.9;

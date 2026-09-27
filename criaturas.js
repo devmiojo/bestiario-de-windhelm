@@ -1,5 +1,5 @@
 /*
-  Bestiário de Windhelm: registro das criaturas.
+  Bestiário de Eivor, Mago da Corte de Windhelm: registro das criaturas.
 
   Para anotar uma fera nova, copie um dos blocos abaixo, cole no fim da lista
   (separado por vírgula) e troque os campos. O sumário e a numeração das
@@ -19,7 +19,9 @@
   com o fundo transparente.
 */
 window.BESTIARIO = {
-  titulo: 'Bestiário de Windhelm',
+  // título curto (capa, folha de rosto e cabeçalho das feras) e complemento
+  titulo: 'Bestiário de Eivor',
+  subtitulo: 'Mago da Corte de Windhelm',
   livro: 'Livro Primeiro',
   // quem escreve o livro (aparece na folha de rosto e na assinatura do prefácio)
   autor: 'Eivor',
@@ -52,7 +54,7 @@ window.BESTIARIO = {
       bando: 'De 3 a 15, ou muitos mais',
       fraquezas: 'Armas de prata são mais eficazes. Sob a luz do sol ficam mais fracos, e há suspeitas de que tochas também ajudem',
       tatica: 'Contra os magos, arcos à distância devem ajudar',
-      protecao: 'Poções de resistência à magia, ou amoras da neve para resistir ao fogo',
+      protecao: 'Poções de resistência à magia. Para resistir ao fogo, amoras da neve ou línguas de dragão',
       regiao: 'Indefinida, pois vêm de fendas. A última aparição foi em Dawnstar',
       retratos: [
         { imagem: 'assets/dremora-guerreiro.webp', legenda: 'Dremora Guerreiro', nota: 'Armas de prata são mais eficazes contra eles.' },

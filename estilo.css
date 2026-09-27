@@ -1,4 +1,4 @@
-/* Bestiário de Windhelm: estilo do livro */
+/* Bestiário de Eivor, Mago da Corte de Windhelm: estilo do livro */
 
 :root {
   color-scheme: dark;
@@ -221,8 +221,8 @@ dd { display: inline; margin: 0; }
 .rosto .topo { display: flex; flex-direction: column; align-items: center; }
 .pata-tinta { width: 6.4em; height: auto; fill: rgb(var(--tinta) / .8); }
 .rosto .livro-n { font-size: 1.25em; }
-.rosto .autor { font-size: 1em; margin-top: .5em !important; }
 .rosto .autoria { font-size: .9em; max-width: 17em; opacity: .9; }
+.rosto .subtitulo { font-size: 1.05em; margin-top: .3em !important; }
 
 /* ao leitor */
 .legenda { margin: .5em 0 .7em; }
@@ -300,9 +300,9 @@ dd { display: inline; margin: 0; }
 .etiqueta {
   position: absolute;
   left: 116px;
-  top: 112px;
+  top: 100px;
   width: 348px;
-  height: 158px;
+  height: 188px;
   transform: rotate(-1.3deg);
   filter: drop-shadow(0 2px 1.5px rgba(0, 0, 0, .75)) drop-shadow(0 0 7px rgba(0, 0, 0, .35));
 }
@@ -314,7 +314,8 @@ dd { display: inline; margin: 0; }
 .etiqueta .conteudo { inset: 12px 18px 10px; text-align: center; overflow: visible; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .etiqueta .t-grande { font-size: 2.75em; line-height: 1.2; }
 .etiqueta .t-medio { font-size: 1.75em; line-height: 1.15; }
-.etiqueta .livro-n { font-size: .8em; margin-top: .45em !important; opacity: .85; }
+.etiqueta .subtitulo { font-size: .92em; margin-top: .35em !important; }
+.etiqueta .livro-n { font-size: .78em; margin-top: .3em !important; opacity: .85; }
 
 /* contracapas por dentro: couro dobrado e papel colado */
 .colado { position: absolute; top: 10px; bottom: 10px; overflow: hidden; box-shadow: 0 0 5px rgba(0, 0, 0, .45); }

@@ -1,4 +1,4 @@
-# Bestiário de Windhelm
+# Bestiário de Eivor, Mago da Corte de Windhelm
 
 Um livro antigo de couro para folhear no navegador. Nele estão as feras de Skyrim anotadas por Eivor, Mago da Corte, com a ajuda de todos os moradores de Windhelm.
 
